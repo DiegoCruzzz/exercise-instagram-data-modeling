@@ -31,8 +31,18 @@ class Post(Base):
     created_at = Column(DateTime, default=datetime.now())
     
     usuario = relationship('Usuario', back_populates='posts')
+    media = relationship('Media', back_populates='posts')
     comments = relationship('Comment', back_populates='post')
     likes = relationship('Like', back_populates='post')
+
+class Media(Base):
+    __tablename__ = 'media'
+    id = Column(Integer, primary_key=True)
+    post_id = Column(Integer, ForeignKey('post.id'), nullable=False)
+    media_link = Column(Text, unique=True, nullable=False)
+    created_at = Column(DateTime, default=datetime.now())
+    
+    post = relationship('Post', back_populates='media')
 
 class Follow(Base):
     __tablename__ = 'follow'
